@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "jwt.key",
+            "type": "java.lang.String",
+            "description": "The key used to sign the JWT token"
+        },
+        {
+            "name": "jwt.expire",
+            "type": "java.lang.Integer",
+            "description": "The expiration time of the JWT token in days"
+        }
+    ]
+}

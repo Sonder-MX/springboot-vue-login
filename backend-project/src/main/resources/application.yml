@@ -2,3 +2,7 @@ spring:
   output:
     ansi:
       enabled: always
+
+jwt:
+  key: abc123456789
+  expire: 7
