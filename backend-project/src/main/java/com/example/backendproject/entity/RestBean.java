@@ -15,7 +15,7 @@ public record RestBean<T>(int code, String message, T data) {
     }
 
     public String toJsonStr() {
-        return String.format("{\"code\":%d,\"message\":\"%s\",\"data\":%s}", code, message,
+        return String.format("{\"code\":%d,\"message\":\"%s\",\"data\":\"%s\"}", code, message,
                 data == null ? "null" : data.toString());
     }
 

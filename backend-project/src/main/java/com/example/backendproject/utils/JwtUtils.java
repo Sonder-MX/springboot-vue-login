@@ -14,10 +14,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 public class JwtUtils {
 
     @Value("${jwt.key}") // 读取配置文件中的jwt.key
-    String key;
+    private String key;
 
     @Value("${jwt.expire}")
-    int expire;
+    private int expire;
 
     /**
      * 生成JWT
