@@ -2,7 +2,16 @@ spring:
   output:
     ansi:
       enabled: always
+  datasource:
+    url: jdbc:mysql://localhost:3306/exp01
+    username: root
+    password: sql_1
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 jwt:
   key: abc123456789
   expire: 7
+  limit:
+    base: 10
+    upgrade: 300
+    frequency: 30

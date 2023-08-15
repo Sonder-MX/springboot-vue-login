@@ -9,6 +9,21 @@
             "name": "jwt.expire",
             "type": "java.lang.Integer",
             "description": "The expiration time of the JWT token in days"
+        },
+        {
+            "name": "jwt.limit.base",
+            "type": "java.lang.Integer",
+            "description": "为用户生成Jwt令牌的冷却时间，防止刷接口频繁登录生成令牌，以秒为单位"
+        },
+        {
+            "name": "jwt.limit.upgrade",
+            "type": "java.lang.Integer",
+            "description": "用户如果继续恶意刷令牌，更严厉的封禁时间"
+        },
+        {
+            "name": "jwt.limit.frequency",
+            "type": "java.lang.Integer",
+            "description": "判定用户在冷却时间内，继续恶意刷令牌的次数"
         }
     ]
 }
