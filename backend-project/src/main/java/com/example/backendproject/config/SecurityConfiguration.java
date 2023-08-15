@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.backendproject.entity.RestBean;
+import com.example.backendproject.entity.vo.TokenVO;
 import com.example.backendproject.utils.JwtUtils;
 
 import jakarta.annotation.Resource;
@@ -54,7 +55,12 @@ public class SecurityConfiguration {
         response.setContentType("application/json;charset=utf-8");
         User user = (User) authentication.getPrincipal();
         String token = jwtUtils.createJWT(user, 1, "小米");
-        response.getWriter().write(RestBean.success(token).toJsonStr());
+        TokenVO tokenVO = new TokenVO();
+        tokenVO.setToken(token);
+        tokenVO.setUsername("小米");
+        tokenVO.setExpire(jwtUtils.expireTime());
+        tokenVO.setRole("");
+        response.getWriter().write(RestBean.success(tokenVO).toJsonStr());
     }
 
     public void onAuthenticationFailure(HttpServletRequest request,

@@ -37,7 +37,7 @@ public class JwtUtils {
 
     }
 
-    private Date expireTime() {
+    public Date expireTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR, expire * 24);
         return calendar.getTime();
