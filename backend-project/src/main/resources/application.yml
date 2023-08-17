@@ -7,6 +7,20 @@ spring:
     username: root
     password: sql_1
     driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host: smtp.qq.com
+    username: 123@qq.com
+    password: abc
+  rabbitmq:
+    addresses: localhost
+    username: admin
+    password: admin
+    virtual-host: /
+
+springdoc:
+  paths-to-match: /api/**
+  swagger-ui:
+    operations-sorter: alpha # 接口排序, alpha: 按字母排序
 
 jwt:
   key: abc123456789
@@ -15,3 +29,15 @@ jwt:
     base: 10
     upgrade: 300
     frequency: 30
+
+myweb:
+  verify:
+    mail-limit: 60
+  flow:
+    period: 3
+    limit: 50
+    block: 30
+  cors:
+    origin: "*"
+    credentials: false
+    methods: "*"

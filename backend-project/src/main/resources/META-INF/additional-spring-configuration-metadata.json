@@ -24,6 +24,41 @@
             "name": "jwt.limit.frequency",
             "type": "java.lang.Integer",
             "description": "判定用户在冷却时间内，继续恶意刷令牌的次数"
+        },
+        {
+            "name": "myweb.verify.mail-limit",
+            "type": "java.lang.Integer",
+            "description": "邮箱验证码发送限制，单位秒"
+        },
+        {
+            "name": "myweb.flow.period",
+            "type": "java.lang.Integer",
+            "description": "流控周期，单位秒"
+        },
+        {
+            "name": "myweb.flow.limit",
+            "type": "java.lang.Integer",
+            "description": "流控周期内的访问次数限制"
+        },
+        {
+            "name": "myweb.flow.block",
+            "type": "java.lang.Integer",
+            "description": "流控周期内访问次数超限后的封禁时间，单位秒"
+        },
+        {
+            "name": "myweb.cors.origin",
+            "type": "java.lang.String",
+            "description": "跨域请求的允许源"
+        },
+        {
+            "name": "myweb.cors.credentials",
+            "type": "java.lang.Boolean",
+            "description": "跨域请求是否允许携带cookie"
+        },
+        {
+            "name": "myweb.cors.methods",
+            "type": "java.lang.String",
+            "description": "跨域请求允许的方法"
         }
     ]
 }
