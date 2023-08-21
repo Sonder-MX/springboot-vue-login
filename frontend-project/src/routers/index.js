@@ -5,7 +5,13 @@ const routes = [
     path: '/',
     name: 'weclome',
     component: () => import('../views/WeclomeView.vue'),
-    children: [],
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: () => import('../views/weclome/LoginPage.vue'),
+      },
+    ],
   },
 ]
 
