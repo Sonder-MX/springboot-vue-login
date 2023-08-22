@@ -52,24 +52,31 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                // 授权请求
                 .authorizeHttpRequests(conf -> conf
                         .requestMatchers("/api/auth/**", "/error").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().hasAnyRole(Const.ROLE_DEFAULT))
+                // 表单登录
                 .formLogin(conf -> conf
                         .loginProcessingUrl("/api/auth/login")
                         .failureHandler(this::handleProcess)
                         .successHandler(this::handleProcess)
                         .permitAll())
+                // 退出登录
                 .logout(conf -> conf
                         .logoutUrl("/api/auth/logout")
                         .logoutSuccessHandler(this::onLogoutSuccess))
+                // 异常处理
                 .exceptionHandling(conf -> conf
-                        .accessDeniedHandler(this::handleProcess)
-                        .authenticationEntryPoint(this::handleProcess))
+                        .accessDeniedHandler(this::handleProcess) // 无权限拦截
+                        .authenticationEntryPoint(this::handleProcess)) // 未登录拦截
+                // 关闭csrf
                 .csrf(AbstractHttpConfigurer::disable)
+                // 关闭session
                 .sessionManagement(conf -> conf
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 添加过滤器 -> 日志过滤器 -> Jwt过滤器
                 .addFilterBefore(requestLogFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, RequestLogFilter.class)
                 .build();
@@ -89,16 +96,16 @@ public class SecurityConfiguration {
     private void handleProcess(HttpServletRequest request,
             HttpServletResponse response,
             Object exceptionOrAuthentication) throws IOException {
-        response.setContentType("application/json;charset=utf-8");
-        PrintWriter writer = response.getWriter();
+        response.setContentType("application/json;charset=utf-8"); // 设置响应类型
+        PrintWriter writer = response.getWriter(); // 获取响应输出流
         if (exceptionOrAuthentication instanceof AccessDeniedException exception) {
             writer.write(RestBean
                     .forbidden(exception.getMessage()).toJsonStr());
         } else if (exceptionOrAuthentication instanceof Exception exception) {
             writer.write(RestBean
                     .unauthorized(exception.getMessage()).toJsonStr());
-        } else if (exceptionOrAuthentication instanceof Authentication authentication) {
-            User user = (User) authentication.getPrincipal();
+        } else if (exceptionOrAuthentication instanceof Authentication authentication) { // 登录成功
+            User user = (User) authentication.getPrincipal(); // 获取登录用户
             Account account = service.findAccountByNameOrEmail(user.getUsername());
             String jwt = jwtUtils.createJwt(user, account.getUsername(), account.getId());
             if (jwt == null) {
