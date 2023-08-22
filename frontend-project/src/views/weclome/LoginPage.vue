@@ -5,15 +5,15 @@
       <p style="color: #777777">Hi~ 欢迎使用 Test Web</p>
     </div>
     <div style="margin-top: 80px">
-      <el-form v-model="form">
-        <el-form-item>
+      <el-form :model="form" :rules="rules" ref="loginFormRef">
+        <el-form-item prop="username">
           <el-input v-model="form.username" maxlength="10" type="text" placeholder="请输入用户名">
             <template #prefix>
               <el-icon> <User /> </el-icon>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input v-model="form.password" maxlength="20" type="password" placeholder="请输入密码">
             <template #prefix>
               <el-icon> <Lock /> </el-icon>
@@ -35,7 +35,7 @@
     </div>
 
     <div style="margin-top: 40px">
-      <el-button style="width: 270px" type="primary" round>登 录</el-button>
+      <el-button style="width: 270px" type="primary" round @click="userLogin">登 录</el-button>
     </div>
 
     <el-divider>
@@ -47,13 +47,28 @@
 
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { login } from '../../net'
 
+const loginFormRef = ref()
 const form = reactive({
   username: '',
   password: '',
   remember: false,
 })
+
+const rules = {
+  username: [{ required: true, message: '请输入用户名' }],
+  password: [{ required: true, message: '请输入密码' }],
+}
+
+function userLogin() {
+  loginFormRef.value.validate((isValid) => {
+    if (isValid) {
+      login(form.username, form.password, form.remember, () => console.log('登录成功'))
+    }
+  })
+}
 </script>
 
 <style scoped></style>
