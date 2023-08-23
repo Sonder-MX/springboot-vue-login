@@ -49,7 +49,9 @@
 import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import { login } from '../../net'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const loginFormRef = ref()
 const form = reactive({
   username: '',
@@ -65,7 +67,9 @@ const rules = {
 function userLogin() {
   loginFormRef.value.validate((isValid) => {
     if (isValid) {
-      login(form.username, form.password, form.remember, () => console.log('登录成功'))
+      login(form.username, form.password, form.remember, () =>
+        router.push({ name: 'PersonalCenter' })
+      )
     }
   })
 }

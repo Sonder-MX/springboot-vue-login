@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { unauthorized } from '../net'
 
 const routes = [
   {
@@ -13,11 +14,29 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/center',
+    name: 'PersonalCenter',
+    component: () => import('../views/PersonalCenter.vue'),
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const isUnAuth = unauthorized()
+  console.log('isUnAuth', !isUnAuth)
+  console.log(to.name)
+  if (to.name === 'login' && !isUnAuth) {
+    next('/center')
+  } else if (to.name === 'PersonalCenter' && isUnAuth) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router
