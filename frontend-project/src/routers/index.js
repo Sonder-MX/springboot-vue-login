@@ -28,8 +28,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isUnAuth = unauthorized()
-  console.log('isUnAuth', !isUnAuth)
-  console.log(to.name)
   if (to.name === 'login' && !isUnAuth) {
     next('/center')
   } else if (to.name === 'PersonalCenter' && isUnAuth) {
