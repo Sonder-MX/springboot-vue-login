@@ -2,26 +2,29 @@ spring:
   output:
     ansi:
       enabled: always
+  profiles:
+    active:
+      - env
   datasource:
-    url: jdbc:mysql://localhost:3306/exp01
-    username: root
-    password: sql_1
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
-      password: 123456
+      host: ${spring.data.redis.host}
+      port: ${spring.data.redis.port}
+      password: ${spring.data.redis.password}
       timeout: 3000ms
   mail:
-    host: smtp.qq.com
-    username: 123@qq.com
-    password: abc
+    host: ${spring.mail.host}
+    username: ${spring.mail.username}
+    password: ${spring.mail.password}
   rabbitmq:
-    addresses: localhost
-    username: admin
-    password: admin
-    virtual-host: /
+    addresses: ${spring.rabbitmq.addresses}
+    username: ${spring.rabbitmq.username}
+    password: ${spring.rabbitmq.password}
+    virtual-host: ${spring.rabbitmq.virtual-host}
 
 springdoc:
   paths-to-match: /api/**

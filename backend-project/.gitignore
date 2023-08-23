@@ -32,5 +32,8 @@ build/
 ### Test ###
 *Test.java
 
+### yml ###
+*-env.yml
+
 ### VS Code ###
 .vscode/
