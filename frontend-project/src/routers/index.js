@@ -17,6 +17,11 @@ const routes = [
         name: 'weclome-register',
         component: () => import('../views/weclome/RegisterPage.vue'),
       },
+      {
+        path: 'forget',
+        name: 'weclome-forget',
+        component: () => import('../views/weclome/ForgetPwd.vue'),
+      },
     ],
   },
   {

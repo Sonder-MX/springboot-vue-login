@@ -18,6 +18,8 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElStep: typeof import('element-plus/es')['ElStep']
+    ElSteps: typeof import('element-plus/es')['ElSteps']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
