@@ -1,6 +1,7 @@
 package com.example.backendproject.listener;
 
 import jakarta.annotation.Resource;
+
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
