@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center; padding: 10px">
+  <div style="text-align: center; padding: 18px">
     <div>
       <h1>用户登录</h1>
       <p style="color: #777777">Hi~ 欢迎使用 Test Web</p>
@@ -41,7 +41,9 @@
     <el-divider>
       <span style="font-size: 12px">没有账号？</span>
     </el-divider>
-    <el-button style="width: 270px" type="success" round plain>立即注册</el-button>
+    <el-button style="width: 270px" type="success" round plain @click="router.push('/register')">
+      立即注册
+    </el-button>
   </div>
 </template>
 

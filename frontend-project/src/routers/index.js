@@ -9,8 +9,13 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'login',
+        name: 'weclome-login',
         component: () => import('../views/weclome/LoginPage.vue'),
+      },
+      {
+        path: 'register',
+        name: 'weclome-register',
+        component: () => import('../views/weclome/RegisterPage.vue'),
       },
     ],
   },
@@ -28,7 +33,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isUnAuth = unauthorized()
-  if (to.name === 'login' && !isUnAuth) {
+  if (to.name.startsWith('weclome-') && !isUnAuth) {
     next('/center')
   } else if (to.name === 'PersonalCenter' && isUnAuth) {
     next('/')
