@@ -24,7 +24,9 @@
                 <el-input v-model="emailForm.code" type="text" placeholder="请输入验证码" />
               </el-col>
               <el-col :span="10" style="text-align: right">
-                <el-button type="success"> 获取验证码 </el-button>
+                <el-button type="success" @click="askCode">
+                  {{ codeTime > 0 ? `${codeTime}秒` : '获取验证码' }}
+                </el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -62,9 +64,12 @@
 import { ref, reactive } from 'vue'
 import { Edit, Message, ArrowLeftBold } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import { get, post } from '../../net'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const active = ref(1)
+const codeTime = ref(0)
 const emailFormRef = ref(null)
 const pwdFormRef = ref(null)
 const emailForm = reactive({
@@ -106,8 +111,66 @@ const pwdRules = {
   ],
 }
 
+// 发送验证码
+function askCode() {
+  // 验证邮箱是否合适
+  if (/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(emailForm.email)) {
+    get(
+      `/api/auth/ask-code?email=${emailForm.email}&type=reset`,
+      () => {
+        codeTime.value = 60
+        setInterval(() => {
+          if (codeTime.value > 0) {
+            codeTime.value--
+          }
+        }, 1000)
+        ElMessage.success('验证码已发送至邮箱，请注意查收')
+      },
+      () => {
+        ElMessage.error('验证码发送失败，请稍后重试')
+        codeTime.value = 0
+      }
+    )
+  } else {
+    ElMessage.warning('请输入正确的邮箱地址')
+  }
+}
+
+function resetConfirm() {
+  post('/api/auth/reset-confirm', { ...emailForm }, () => {
+    active.value += 1
+  })
+}
+
+function resetPassword() {
+  post(
+    '/api/auth/reset-password',
+    {
+      email: emailForm.email,
+      code: emailForm.code,
+      password: pwdForm.pwd,
+    },
+    () => {
+      ElMessage.success('密码重置成功')
+      router.push('/')
+    }
+  )
+}
+
 const nextSetp = () => {
-  if (active.value++ > 1) active.value = 1
+  if (active.value === 1) {
+    emailFormRef.value.validate((isValid) => {
+      if (isValid) {
+        resetConfirm()
+      }
+    })
+  } else {
+    pwdFormRef.value.validate((isValid) => {
+      if (isValid) {
+        resetPassword()
+      }
+    })
+  }
 }
 </script>
 
