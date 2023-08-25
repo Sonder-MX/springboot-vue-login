@@ -34,8 +34,6 @@ public class MailQueueListener {
     @RabbitHandler
     public void sendMailMessage(Map<String, Object> data) {
 
-        log.info("开始发送邮件: {}", data);
-
         String email = data.get("email").toString();
         Integer code = (Integer) data.get("code");
         SimpleMailMessage message = switch (data.get("type").toString()) {
@@ -52,6 +50,7 @@ public class MailQueueListener {
         if (message == null)
             return;
         sender.send(message);
+        log.info("邮件发送完成: {}", data);
     }
 
     /**
