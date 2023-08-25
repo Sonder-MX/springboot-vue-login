@@ -35,6 +35,6 @@
 .right-box {
   width: 400px;
   z-index: 1;
-  background-color: #fff;
+  background-color: var(--el-bg-color);
 }
 </style>
